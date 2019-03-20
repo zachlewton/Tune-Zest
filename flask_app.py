@@ -33,7 +33,9 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(128))
     password_hash = db.Column(db.String(128))
-
+    artist_name = db.Column(db.String(128))
+    location = db.Column(db.String(128))
+    genre = db.Column(db.String(128))
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
@@ -89,3 +91,9 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route("/signup/", methods=["GET", "POST"])
+def signup():
+    if request.method == "GET":
+        return render_template("signup_page.html")
+
