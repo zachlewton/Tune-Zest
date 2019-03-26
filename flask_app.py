@@ -1,10 +1,11 @@
 from flask import Flask, redirect, render_template, request, url_for
 from flask_sqlalchemy import SQLAlchemy
+##from wtforms import Form, StringField, TextAreaField, PasswordField, validators
 from flask_migrate import Migrate
 from flask_login import login_user, LoginManager, UserMixin, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
-
+##from passwordlib.hash import sha256_crypt
 
 
 app = Flask(__name__)
@@ -27,6 +28,25 @@ app.secret_key = "ahfkdiepslghnbqgchpq"
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+"""class RegisterForm(Form):
+    username = StringField('Username')
+    password = PasswordField('Password', [
+        validators.DataRequired()
+        validators.EqualTo('confirm', message='Passwords do not match')
+        ])
+        confirm = PasswordField('confirm password')
+    artist_name = StringField('Artist Name')
+    location = StringField('Location')
+    genre = StringField('Location')"""
+
+##class RegisterForm(db.model):
+##    __tablename__ = "users"
+
+
+
+
+
+
 class User(UserMixin, db.Model):
     __tablename__ = "users"
 
@@ -42,6 +62,7 @@ class User(UserMixin, db.Model):
 
     def get_id(self):
         return self.username
+
 
 
 @login_manager.user_loader
@@ -92,8 +113,27 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route("/signup/", methods=["GET", "POST"])
-def signup():
+
+
+
+
+@app.route('/register/', methods=['GET', 'POST'])
+def register():
     if request.method == "GET":
-        return render_template("signup_page.html")
+        return render_template("register.html")
+
+
+
+    if request.method == "POST":
+        new_user = User(username=request.form["username"], password_hash= generate_password_hash(request.form["password"]), artist_name=request.form["artist_name"], location=request.form["location"], genre=request.form["genre"])
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('index'))
+
+
+
+
+
+
+
 
