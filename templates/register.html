@@ -12,7 +12,13 @@
 
         <b><h1 style="font-size:150%;">User</h1></b>
 
-
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages%}
+                <h3>{{ message }}</h3>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 
         <form action="." method="post">
             <div class= "form-group">
