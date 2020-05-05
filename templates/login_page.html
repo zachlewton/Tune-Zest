@@ -10,8 +10,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://www.pythonanywhere.com/user/zestylemon/files/home/zestylemon/mysite/templates/stylesheet_loginpage.css">
-        <title>My scratchboard page: log in</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='stylesheet_homepage.css')}}">
+        <title>Tunezest</title>
     </head>
 
     <body >
@@ -24,7 +24,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">My scratchpad: login page</a>
+                    <a class="navbar-brand" href="#">Tunezest</a>
                 </div>
             </div>
         </nav>
@@ -41,7 +41,7 @@
                     <label for="password">Password:</label>
                     <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password">
                   </div>
-                  <button type="submit" class="btn btn-success">Log in</button>
+                  <button type="submit" class="btn btn-success" style="background-color:#D3C1D2; border-color:white;">Log in</button>
                   <a href="http://zestylemon.pythonanywhere.com/register" class='btn btn-link'>sign up</a>
                   </form>
 

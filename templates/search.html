@@ -5,12 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-        <link rel="stylesheet" link href="https://www.pythonanywhere.com/user/zestylemon/files/home/zestylemon/mysite/templates/stylesheet_homepage.css">
+        <link rel="stylesheet" link href="{{url_for('static', filename='stylesheet_homepage.css')}}">
         <title>My scratchboard page</title>
     </head>
 
     <body style="background-color: #fffff4">
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-dark bg-dark"">
           <div class="container">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -19,7 +19,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Tunezest</a>
+              <a class="navbar-brand" style="color: black;" href="#">Tunezest</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
@@ -28,6 +28,8 @@
                     <li><a href="{{ url_for('login') }}">Log in</a></li>
                 {% endif %}
             </ul>
+            <a class="navbar-brand" href={{url_for('search')}}> Search</a>
+            <a class="navbar-brand" href={{url_for('profile')}}> Profile</a>
           </div>
         </nav>
 
@@ -35,9 +37,11 @@
         <div class="topnav">
 
             <form action=".", method="POST", enctype="multipart/form-data">
+                <div class="search_class">
+                    <input name="search_text" type="text" placeholder="Search.." class="form-control">
+                    <input class="btn btn-primary" type="submit" value="Search" style="background-color:#D3C1D2; border-color:white;">
 
-                <input name="search_text" type="text" placeholder="Search.." class="form-control">
-                <input class="btn btn-primary" type="submit" value="Submit">
+                </div>
 
             </form>
 
@@ -46,12 +50,26 @@
 
         </div>
 
-        <div class="container">
+        <div class="container_search" stlye="justify-content:center;" >
+
+
             {% for result in search_result %}
-                <div class="row">
+                <div class="profile_squares">
+
+                    <a href= "{{url_for('music', artist_id=result.id)}}">
+                    <div class="flex-center-vertically">
+
+                            <p>{{result.artist_name}}</p>
 
 
-                    <a href= "{{url_for('music', artist_id=result.id)}}">{{result.artist_name}}</a>
+
+
+                        <p>{{result.genre}}</p>
+                        <p>{{result.location}}</p>
+
+                     </div>
+
+                    </a>
 
                 </div>
 

@@ -5,12 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-        <link rel="stylesheet" link href="https://www.pythonanywhere.com/user/zestylemon/files/home/zestylemon/mysite/templates/stylesheet_homepage.css">
+        <link rel="stylesheet" link href="{{url_for('static', filename='stylesheet_homepage.css')}}">
         <title>My scratchboard page</title>
     </head>
 
     <body style="background-color: #fffff4">
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-dark bg-dark"">
           <div class="container">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -19,7 +19,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Tunezest</a>
+              <a class="navbar-brand" style="color: black;" href="{{url_for('index')}}">Tunezest</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
@@ -28,78 +28,86 @@
                     <li><a href="{{ url_for('login') }}">Log in</a></li>
                 {% endif %}
             </ul>
+            <a class="navbar-brand" href={{url_for('search')}}> Search</a>
+            <a class="navbar-brand" href={{url_for('profile')}}> Profile</a>
           </div>
         </nav>
 
 
 
         </div>
+        <div class="container" style="justify-content:center; text-align:center;" >
+                <h1>{{user.artist_name}}</h1>
+        </div>
+        <div class="song_container">
 
-        <div class="container">
-            {{user.username}}
             {% for song in songs %}
-                <div class="row">
-                    {{song.song_name}}
-                </div>
-
-                <div class="row">
-                    <img src="https://www.pythonanywhere.com/user/zestylemon/files/home/zestylemon/mysite/album_art_folder/{{song.album_art_file}}">
-                </div>
-                <div class="row">
-                    <audio controls="controls" src="https://www.pythonanywhere.com/user/zestylemon/files/home/zestylemon/mysite/song_file_folder/{{song.mp3_file}}"></audio>
-
-                </div>
-
-                <div class="container">
-            {% for comment in comments %}
-                {% if comment.song_id == song.song_id %}
-                    <div class="row" style="margin-bottom: 1ex">
-                        <div>
-
-                                {{ comment.content }}
-
+                <div class="comment_container">
+                    <div class="song_squares" >
+                        <div class="col">
+                            {{song.song_name}}
                         </div>
-                        <div>
-                            <small>
-                                Posted
-                                {% if comment.posted %}
-                                    {{ comment.posted.strftime("%A, %d %B %Y at %H:%M") }}
-                                {% else %}
-                                    at an unknown time
-                                {% endif %}
-                                by
-                                {% if comment.commenter %}
-                                    {{ comment.commenter.username }}
-                                {% else %}
-                                    anonymous
-                                {% endif %}
-                            </small>
+                        <div class="col">
+                            By: {{user.artist_name}}
+                        </div>
+                        <div class="col">
+                            <img src="{{url_for('static', filename='/album_art_folder/'+song.album_art_file)}}" style="width: 400px; height:400px;">
+                        </div>
+                        <div class="col">
+                            <audio controls="controls" src="{{url_for('static', filename=song.mp3_file)}}"></audio>
+
                         </div>
                     </div>
+
+
+
+                {% if current_user.is_authenticated %}
+                    <div class="row">
+                        <form action="{{url_for('music', artist_id=user.id)}}" method="POST">
+                            <textarea name="contents" placeholder="Enter a comment" class="form-control"></textarea>
+                            <input type="submit" class="btn btn-success" value="Post comment" style="background-color: #D3C1D2; border-color:#D3C1D2;">
+                            <input name="song_id"type="hidden" value="{{song.song_id}}">
+
+                        </form>
+                    </div>
                 {% endif %}
-            {% endfor %}
+                {% for comment in comments %}
+                    {% if comment.song_id == song.song_id %}
+                        <div class="row" style="margin-bottom: 1ex">
+                            <div>
 
-            {% if current_user.is_authenticated %}
-                <div class="row">
-                    <form action="." method="POST">
-                        <textarea name="contents" placeholder="Enter a comment" class="form-control"></textarea>
-                        <input type="submit" class="btn btn-success" value="Post comment">
-                        <input name="song_id"type="hidden" value="{{song.song_id}}">
-                    </form>
+                                    {{ comment.content }}
+
+                            </div>
+                            <div>
+                                <small>
+                                    Posted
+                                    {% if comment.posted %}
+                                        {{ comment.posted.strftime("%A, %d %B %Y at %H:%M") }}
+                                    {% else %}
+                                        at an unknown time
+                                    {% endif %}
+                                    by
+                                    {% if comment.commenter %}
+                                        {{ comment.commenter.username }}
+                                    {% else %}
+                                        anonymous
+                                    {% endif %}
+                                </small>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+
+
+
+
+
                 </div>
-            {% endif %}
-
-
-
-
-                <form  action="." method="post" >
-                    <button name="song_id" value="{{song.song_id}}" type="submit">Fav</button>
-	            </form>
-
-
-            {% endfor %}
-
-        </div>
+                {% endfor %}
+            </div>
+         </div>
 
 
     </body>

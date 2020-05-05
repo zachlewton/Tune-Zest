@@ -5,12 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-        <link rel="stylesheet" link href="https://www.pythonanywhere.com/user/zestylemon/files/home/zestylemon/mysite/templates/stylesheet_homepage.css">
-        <title>My scratchboard page</title>
+        <link rel="stylesheet" link href="{{url_for('static', filename='stylesheet_homepage.css')}}">
+        <title>Tunezest</title>
     </head>
 
     <body style="background-color: #fffff4">
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-dark bg-dark"">
           <div class="container">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -19,7 +19,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Tunezest</a>
+              <a class="navbar-brand" style="color: black;" href="{{url_for('index')}}">Tunezest</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
@@ -28,16 +28,16 @@
                     <li><a href="{{ url_for('login') }}">Log in</a></li>
                 {% endif %}
             </ul>
-            <a class="nav-brand" href={{url_for('search')}}> Search</a>
-            <a class="nav-brand" href={{url_for('profile')}}> Profile</a>
+            <a class="navbar-brand" href={{url_for('search')}}> Search</a>
+            <a class="navbar-brand" href={{url_for('profile')}}> Profile</a>
           </div>
         </nav>
 
 
-        <div class="container_songs">
+        <div class="song_container">
 
             {% for song in songs %}
-            <div class="jumbotron" >
+            <div class="song_squares" >
                 <div class="col">
                     {{song.song_name}}
                 </div>
@@ -45,10 +45,10 @@
                     By: {{user.artist_name}}
                 </div>
                 <div class="col">
-                    <img src="https://www.pythonanywhere.com/user/zestylemon/files/home/zestylemon/mysite/album_art_folder/{{song.album_art_file}}" style="width: 400px; height:400px;">
+                    <img src="{{url_for('static', filename='/album_art_folder/'+song.album_art_file)}}" style="width: 400px; height:400px;">
                 </div>
                 <div class="col">
-                    <audio controls="controls" src="https://www.pythonanywhere.com/user/zestylemon/files/home/zestylemon/mysite/song_file_folder/{{song.mp3_file}}"></audio>
+                    <audio controls="controls" src="{{url_for('static', filename=song.mp3_file)}}"></audio>
 
                 </div>
             </div>

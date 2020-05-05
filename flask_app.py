@@ -140,7 +140,9 @@ def register():
             new_user = User(username=request.form["username"], password_hash= generate_password_hash(request.form["password"]), artist_name=request.form["artist_name"], location=request.form["location"], genre=request.form["genre"])
             db.session.add(new_user)
             db.session.commit()
-            current_user.is_authenticated
+            user = current_user
+            user = load_user(request.form["username"])
+            login_user(user)
             return redirect(url_for('homepagedraft'))
         else:
             flash('Passwords did not match', 'error')
@@ -161,13 +163,13 @@ def upload():
             art_file_upload=request.files['album_art']
 
             ####album art save to folder#####
-            target_art = os.path.join(APP_ROOT, 'album_art_folder/')
+            target_art = os.path.join(APP_ROOT, 'static/album_art_folder/')
             art_filename = art_file_upload.filename
             destination_art = "/".join([target_art, art_filename])
             art_file_upload.save(destination_art)
 
             ###mp3 file save to folder####
-            target_song = os.path.join(APP_ROOT, 'song_file_folder/')
+            target_song = os.path.join(APP_ROOT, 'static')
             song_filename = mp3_file_upload.filename
             destination_song = "/".join([target_song, song_filename])
             mp3_file_upload.save(destination_song)
@@ -213,11 +215,15 @@ def profile():
         return render_template("search.html", search_result=search_result)
 
 
+
 @app.route('/music/', methods=['GET', 'POST'])
-@app.route('/music/<artist_id>', methods=['GET', 'POST'])
-def music(artist_id=1):
+@app.route('/music/<int:artist_id>', methods=['GET', 'POST'])
+def music(artist_id):
+
+
         user = User.query.filter_by(id=artist_id).first()
         songs = Song_upload.query.filter_by(fk_user_id=artist_id)
+
 
         if request.method == "GET":
 
@@ -230,10 +236,13 @@ def music(artist_id=1):
         if request.method == "POST":
 
 
-            comment = Comment(content=request.form["contents"], commenter=current_user, song_id=request.form["song_id"])
+            comment = Comment(content=request.form["contents"], commenter=current_user, song_id=request.form["song_id"] )
             db.session.add(comment)
             db.session.commit()
-            return redirect(url_for('index'))
+
+            return render_template("music.html", user=user, songs=songs, comments=Comment.query.all())
+
+
 
 
 

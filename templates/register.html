@@ -5,12 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+        <link rel="stylesheet" link href="{{url_for('static', filename='stylesheet_homepage.css')}}">
         <title>User Page</title>
     </head>
 
-    <body>
+    <body style="padding-left:150px; padding-right:150px; padding-top:50px;">
 
-        <b><h1 style="font-size:150%;">User</h1></b>
+
 
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -20,33 +21,37 @@
         {% endif %}
     {% endwith %}
 
-        <form action="." method="post">
-            <div class= "form-group">
-                <textarea name="username" placeholder="Enter username" class="form-control"></textarea>
-            </div>
+        <div class="register_container">
+            <form action="." method="post">
+                <div class= "form-group">
+                    <input  class="form-control"  name="username" placeholder="Username">
+                </div>
 
-            <div class= "form-group">
-                <textarea name="password" placeholder="Enter password" class="form-control"></textarea>
-            </div>
+                <div class= "form-group">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                </div>
 
-            <div class= "form-group">
-                <textarea name="check_password" placeholder="Re-enter password" class="form-control"></textarea>
-            </div>
+                <div class= "form-group">
+                    <input type="password" class="form-control" id="password" name="check_password" placeholder="Re-enter your password">
+                </div>
 
-            <div class= "form-group">
-                <textarea name="artist_name" placeholder="Enter artist name" class="form-control"></textarea>
-            </div>
+                <div class= "form-group">
+                    <input  class="form-control" id="password" name="artist_name" placeholder="Artist Name">
+                </div>
 
-            <div class= "form-group">
-                <textarea name="location" placeholder="Enter location" class="form-control"></textarea>
-            </div>
+                <div class= "form-group">
+                    <input  class="form-control" id="password" name="location" placeholder="Location">
+                </div>
 
-            <div class= "form-group">
-                <textarea name="genre" placeholder="Enter genre" class="form-control"></textarea>
-            </div>
+                <div class= "form-group">
+                    <input class="form-control" id="password" name="genre" placeholder="Genre">
+                </div>
 
-            <input type="submit" class="btn btn-success" value="Submit">
-        </form>
+                <input type="submit" class="btn btn-success" value="Register" style="background-color: #D3C1D2; border:white;">
+            </form>
+
+        </div>
+
 
     </body>
 </html>

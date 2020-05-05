@@ -5,12 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://www.pythonanywhere.com/user/zestylemon/files/home/zestylemon/mysite/templates/stylesheet_loginpage.css">
+        <link rel="stylesheet" href="{{url_for('static', filename='stylesheet_homepage.css')}}">
         <title>My scratchboard page: log in</title>
     </head>
 
     <body style="background-color: #fffff4">
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-dark bg-dark"">
           <div class="container">
             <div class="navbar-header">
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -19,7 +19,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Tunezest</a>
+              <a class="navbar-brand" style="color: black;" href="{{url_for('index')}}">Tunezest</a>
             </div>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
@@ -28,6 +28,8 @@
                     <li><a href="{{ url_for('login') }}">Log in</a></li>
                 {% endif %}
             </ul>
+            <a class="navbar-brand" href={{url_for('search')}}> Search</a>
+            <a class="navbar-brand" href={{url_for('profile')}}> Profile</a>
           </div>
         </nav>
 
@@ -45,7 +47,7 @@
                         <label for="album_art">Album Art</label>
                         <input type="file" name="album_art">
                     </div>
-                    <input class="btn btn-primary" type="submit" value="Submit">
+                    <input class="btn btn-primary" type="submit" value="Post" style=" background-color:#D3C1D2; border-color:white;">
                 </form>
             </div>
         </div>
